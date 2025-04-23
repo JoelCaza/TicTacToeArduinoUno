@@ -1,0 +1,5 @@
+python-opencv
+pyserial
+numpy
+opencv-python
+opencv-python-headless
