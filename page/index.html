@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TIC-TAC-IA | El Brazo Robótico que Juega</title>
+    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="animated-bg" id="animatedBg"></div>
+    
+    <header class="gta-header">
+        <nav class="main-nav">
+            <div class="nav-brand">TIC-TAC-IA</div>
+            <button class="hamburger-menu" id="hamburgerMenu">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </button>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#que-es"><i class="fas fa-question-circle"></i> ¿Qué es?</a></li>
+                <li><a href="#por-que"><i class="fas fa-lightbulb"></i> ¿Por qué?</a></li>
+                <li><a href="#logros"><i class="fas fa-trophy"></i> Logros</a></li>
+                <li><a href="#como-funciona"><i class="fas fa-cogs"></i> ¿Cómo funciona?</a></li>
+                <li><a href="#en-accion"><i class="fas fa-eye"></i> En Acción</a></li>
+                <li><a href="#futuro"><i class="fas fa-rocket"></i> Futuro</a></li>
+                <li><a href="https://github.com/JoelCaza/TicTacToeArduinoUno.git" target="_blank" class="nav-button"><i class="fab fa-github"></i> GitHub</a></li>
+            </ul>
+        </nav>
+
+        <h1>TIC-TAC-IA</h1>
+        <p class="subtitle">No solo es un brazo, es una mente que juega.</p>
+        <p class="subtitle">5to Desarrollo ITQ</p>
+        <div class="scroll-indicator" onclick="document.querySelector('main').scrollIntoView({behavior: 'smooth'})">
+            <i class="fas fa-chevron-down"></i>
+        </div>
+    </header>
+
+    <main>
+        <section class="intro" id="que-es">
+            <h2>¿Qué es?</h2>
+            <p>Un brazo inteligente capaz de jugar "3 en raya" (Tic-Tac-Toe) usando Inteligencia Artificial y visión por computadora. Representa la convergencia perfecta entre robótica avanzada y algoritmos inteligentes.</p>
+            <div class="highlight-box">
+                <i class="fas fa-robot"></i>
+                <p>¡Experimenta la **interacción inteligente** con la robótica del futuro, hoy mismo!</p>
+            </div>
+        </section>
+
+        <section class="stats-counter-section">
+            <h2>Nuestros Números Impresionantes</h2>
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-icon"><i class="fas fa-project-diagram"></i></div>
+                    <div class="stat-number" data-target="1500">0</div>
+                    <div class="stat-label">Líneas de Código (aprox.)</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-icon"><i class="fas fa-robot"></i></div>
+                    <div class="stat-number" data-target="6">0</div>
+                    <div class="stat-label">Grados de Libertad</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-icon"><i class="fas fa-brain"></i></div>
+                    <div class="stat-number" data-target="100">0</div>
+                    <div class="stat-label">% Precisión IA</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-icon"><i class="fas fa-users"></i></div>
+                    <div class="stat-number" data-target="5">0</div>
+                    <div class="stat-label">Miembros del Equipo</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="purpose" id="por-que">
+            <h2>¿Por qué lo hicimos?</h2>
+            <p>Creamos un sistema educativo, intuitivo y divertido que permite aprender de forma práctica sobre tecnologías del futuro:</p>
+            <ul>
+                <li>🤖 Robótica Avanzada</li>
+                <li>💻 Programación Inteligente</li>
+                <li>🧠 Algoritmos de IA</li>
+                <li>👁️ Visión por Computadora</li>
+            </ul>
+        </section>
+
+        <section class="achievements" id="logros">
+            <h2>Lo que logramos</h2>
+            <ul>
+                <li>⚡ Movimiento Fluido y Estable con joystick</li>
+                <li>🎯 Precisión Milimétrica en cada Servo</li>
+                <li>🧠 IA que toma decisiones Estratégicas</li>
+                <li>🔄 Integración exitosa del algoritmo MiniMax</li>
+                <li>🎮 Control híbrido: IA y joysticks</li>
+                <li>🤝 Trabajo colaborativo y cumplimiento de plazos</li>
+                <li>📊 Optimización de rendimiento en tiempo real</li>
+            </ul>
+        </section>
+
+        <section class="how-it-works" id="como-funciona">
+            <h2>¿Cómo funciona?</h2>
+            <p>El sistema utiliza visión por computadora para el reconocimiento del tablero, programación precisa de servomotores y control inteligente del brazo mediante IA y joysticks.</p>
+            
+            <h3>Componentes Clave:</h3>
+            <ul>
+                <li>🔧 Arduino Uno (Microcontrolador)</li>
+                <li>🕹️ Joysticks Analógicos</li>
+                <li>⚙️ Servomotores de Alta Precisión</li>
+                <li>💾 Software Arduino IDE</li>
+                <li>👁️ Visión OpenCV (Python)</li>
+                <li>🧠 Algoritmo MiniMax (IA)</li>
+            </ul>
+            
+            <h3>Etapas de Desarrollo:</h3>
+            <ul>
+                <li>📐 Diseño de Conexiones</li>
+                <li>🔬 Programación Inicial para Pruebas</li>
+                <li>👀 Pruebas de Visión</li>
+                <li>⚡ Optimización de Movimientos</li>
+                <li>🤖 Integración de IA</li>
+                <li>🎓 Aplicación de Conocimientos</li>
+            </ul>
+        </section>
+
+        <section class="visuals" id="en-accion">
+            <h2>En Acción</h2>
+            <p>Mira nuestro Tic-Tac-Toe Robótico en funcionamiento, demostrando su inteligencia artificial y precisión mecánica en cada movimiento. **¡Prepárate para sorprenderte!**</p>
+            <img src="./assets/brazo-robot.jpg" alt="Juego de Tic-Tac-Toe Robótico en acción" class="gta-image">
+       
+        </section>
+
+        <section class="future" id="futuro">
+            <h2>Futuro del Proyecto</h2>
+            <p>Nuestro sistema tiene un potencial ilimitado de expansión. Las futuras mejoras incluyen:</p>
+            <ul>
+                <li>📡 Sensores de Proximidad Avanzados</li>
+                <li>🧠 Aprendizaje Automático de Nuevas Tareas</li>
+                <li>👋 Control por Gestos y Voz</li>
+                <li>🌐 Conectividad IoT</li>
+                <li>🎮 Múltiples Juegos Interactivos</li>
+            </ul>
+        </section>
+
+        <section class="conclusion">
+            <h2>Conclusiones</h2>
+            <p>Hemos creado un sistema funcional, accesible y con enorme potencial educativo. Este proyecto demuestra que la robótica y la inteligencia artificial no son solo del futuro, sino del presente, y pueden ser herramientas poderosas para el aprendizaje y la innovación.</p>
+        </section>
+
+        <section class="call-to-action" id="github">
+            <h2>¡Listo para el desafío?</h2>
+            <p>Descubre más sobre este innovador proyecto y su potencial para revolucionar la educación en robótica.</p>
+            <a href="https://github.com/JoelCaza/TicTacToeArduinoUno.git" target="_blank" class="gta-button">
+                <i class="fab fa-github"></i> Ver Código en GitHub
+            </a>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Tic-Tac-IA Robótico. Todos los derechos reservados. | Hecho con 💚 por estudiantes de Desarrollo Quinto Semestre ITQ</p>
+    </footer>
+
+    <script>
+        // Lógica de navegación de hamburguesa
+        const hamburgerMenu = document.getElementById('hamburgerMenu');
+        const navLinks = document.getElementById('navLinks');
+
+        hamburgerMenu.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            hamburgerMenu.classList.toggle('active'); // Para animar el icono de hamburguesa
+        });
+
+        // Cerrar el menú al hacer clic en un enlace (útil para móviles)
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+                hamburgerMenu.classList.remove('active');
+            });
+        });
+
+        // Crear partículas animadas en el fondo
+        function createParticles() {
+            const bg = document.getElementById('animatedBg');
+            const particleCount = 70; // Aumentamos la cantidad para el efecto 0/1
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                // Asignar aleatoriamente 0 o 1 como contenido
+                particle.textContent = Math.random() < 0.5 ? '0' : '1';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 6 + 's';
+                particle.style.animationDuration = (Math.random() * 4 + 4) + 's'; // Duración ligeramente más larga
+                bg.appendChild(particle);
+            }
+        }
+        
+        // Intersection Observer para animaciones en scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate');
+                    // Activar el contador de estadísticas si es la sección
+                    if (entry.target.classList.contains('stats-counter-section')) {
+                        startCounterAnimation();
+                    }
+                } else {
+                    entry.target.classList.remove('animate');
+                }
+            });
+        }, observerOptions);
+        
+        // Observar todas las secciones
+        document.querySelectorAll('section').forEach(section => {
+            observer.observe(section);
+        });
+        
+        // Efecto de parallax suave
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const header = document.querySelector('.gta-header');
+            // Ya no aplicamos parallax al header si la nav es sticky.
+            // Si quieres un parallax en el fondo, habría que aplicarlo a otro elemento.
+            // header.style.transform = `translateY(${scrolled * 0.5}px)`;
+        });
+        
+        // Efectos de hover mejorados
+        document.querySelectorAll('ul li').forEach(item => {
+            item.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateX(15px) scale(1.02)';
+            });
+            
+            item.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateX(0) scale(1)';
+            });
+        });
+        
+        // Inicializar partículas
+        createParticles();
+        
+        // Smooth scroll para navegación (actualizado para usar la nueva barra de nav)
+        document.querySelectorAll('.main-nav a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start' // Asegura que el elemento se alinee al principio de la vista
+                });
+            });
+        });
+
+        // Evento para el botón de "Ver Video Demostrativo" (opcional, si añades un modal o similar)
+        document.querySelector('.video-button').addEventListener('click', () => {
+            alert('Aquí se abriría un video demostrativo del proyecto.');
+        });
+
+        // --- Lógica del Contador de Estadísticas (Nuevo) ---
+        function startCounterAnimation() {
+            // Previene que se inicie la animación múltiples veces
+            const counters = document.querySelectorAll('.stat-number:not(.animated)');
+            counters.forEach(counter => {
+                counter.classList.add('animated'); // Marca el contador como animado
+                const target = +counter.getAttribute('data-target');
+                let current = 0;
+                const duration = 2000; // ms
+                const increment = target / (duration / 16); // ~60 fps
+
+                const updateCounter = () => {
+                    if (current < target) {
+                        current += increment;
+                        counter.textContent = Math.ceil(current);
+                        requestAnimationFrame(updateCounter);
+                    } else {
+                        counter.textContent = target;
+                    }
+                };
+                updateCounter();
+            });
+        }
+
+        // Observar la sección de estadísticas para activar el contador
+        const statsObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    startCounterAnimation();
+                    statsObserver.unobserve(entry.target); // Dejar de observar después de animar una vez
+                }
+            });
+        }, { threshold: 0.5 }); // Cuando el 50% de la sección es visible
+
+        document.querySelectorAll('.stats-counter-section').forEach(section => {
+            statsObserver.observe(section);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,814 @@
+@import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;400;600;700&family=Orbitron:wght@400;700;900&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --primary-bg: #0a0a0a;
+    --secondary-bg: #1a1a1a;
+    --accent-color: #00ff88; /* Verde neón */
+    --accent-secondary: #ff6b35; /* Naranja vibrante */
+    --text-primary: #ffffff;
+    --text-secondary: #cccccc;
+    --text-muted: #888888;
+    --border-color: #333333;
+    --glow-color: #00ff88;
+    --shadow-color: rgba(0, 255, 136, 0.3);
+}
+
+body {
+    font-family: 'Rajdhani', sans-serif;
+    background: var(--primary-bg);
+    color: var(--text-primary);
+    overflow-x: hidden;
+    line-height: 1.6;
+    padding-top: 80px; /* IMPORTANTE: Añadir padding al body igual a la altura del nav para que el contenido no quede oculto bajo la nav fija */
+}
+
+/* Fondo animado con partículas */
+.animated-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #0a0a0a 100%);
+    overflow: hidden;
+}
+
+.particle {
+    position: absolute;
+    width: auto; /* Ancho automático para el texto */
+    height: auto; /* Alto automático para el texto */
+    background: transparent; /* Fondo transparente */
+    color: rgba(0, 255, 136, 0.5); /* Color de texto semitransparente */
+    font-family: 'monospace', 'Courier New', Courier; /* Fuente monoespaciada para 0s y 1s */
+    font-size: 1.2rem; /* Tamaño de texto de la partícula */
+    opacity: 0.6;
+    animation: floatBinary 8s ease-in-out infinite; /* Nueva animación y duración más larga */
+    pointer-events: none; /* Asegura que no interfieran con el clic */
+}
+
+@keyframes floatBinary {
+    0% {
+        transform: translateY(0px) rotate(0deg);
+        opacity: 0.6;
+    }
+    25% {
+        transform: translateY(-10px) rotate(90deg);
+        opacity: 0.7;
+    }
+    50% {
+        transform: translateY(-25px) rotate(180deg);
+        opacity: 0.8;
+    }
+    75% {
+        transform: translateY(-10px) rotate(270deg);
+        opacity: 0.7;
+    }
+    100% {
+        transform: translateY(0px) rotate(360deg);
+        opacity: 0.6;
+    }
+}
+
+/* Header con efectos futuristas */
+.gta-header {
+    position: relative;
+    height: calc(100vh - 80px); /* Ajustar altura para compensar el nav fijo */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.8), rgba(26, 26, 26, 0.9));
+    border-bottom: 1px solid var(--border-color);
+    overflow: hidden;
+    /* Eliminar padding-top: 80px; de aquí, ya lo pusimos en body */
+}
+
+.gta-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background:
+        radial-gradient(circle at 20% 50%, rgba(0, 255, 136, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(255, 107, 53, 0.1) 0%, transparent 50%);
+    animation: pulse 4s ease-in-out infinite alternate;
+}
+
+@keyframes pulse {
+    0% {
+        opacity: 0.5;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+.gta-header h1 {
+    font-family: 'Orbitron', monospace;
+    font-size: 5rem;
+    font-weight: 900;
+    color: var(--text-primary);
+    text-transform: uppercase;
+    letter-spacing: 8px;
+    margin-bottom: 1rem;
+    position: relative;
+    z-index: 2;
+    text-shadow:
+        0 0 10px var(--glow-color),
+        0 0 20px var(--glow-color),
+        0 0 40px var(--glow-color);
+    animation: titleGlow 3s ease-in-out infinite alternate;
+}
+
+@keyframes titleGlow {
+    0% {
+        text-shadow: 0 0 10px var(--glow-color), 0 0 20px var(--glow-color), 0 0 40px var(--glow-color);
+    }
+
+    100% {
+        text-shadow: 0 0 20px var(--glow-color), 0 0 30px var(--glow-color), 0 0 60px var(--glow-color);
+    }
+}
+
+.subtitle {
+    font-size: 1.5rem;
+    font-weight: 300;
+    color: var(--text-secondary);
+    margin-bottom: 0.5rem;
+    position: relative;
+    z-index: 2;
+    opacity: 0;
+    animation: fadeInUp 1s ease-out 0.5s forwards;
+}
+
+.subtitle:last-child {
+    color: var(--accent-color);
+    font-weight: 600;
+    animation-delay: 0.8s;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Scroll indicator */
+.scroll-indicator {
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: var(--accent-color);
+    font-size: 2rem;
+    animation: bounce 2s infinite;
+    cursor: pointer;
+    background: rgba(0,0,0,0.5);
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid var(--accent-color);
+    box-shadow: 0 0 15px var(--glow-color);
+}
+.scroll-indicator i {
+    font-size: 1.5rem;
+    transition: transform 0.3s ease;
+}
+.scroll-indicator:hover i {
+    transform: translateY(5px);
+}
+
+
+@keyframes bounce {
+    0%,
+    20%,
+    50%,
+    80%,
+    100% {
+        transform: translateX(-50%) translateY(0);
+    }
+
+    40% {
+        transform: translateX(-50%) translateY(-10px);
+    }
+
+    60% {
+        transform: translateX(-50%) translateY(-5px);
+    }
+}
+
+/* --- Barra de Navegación Fija Responsive --- */
+.main-nav {
+    position: fixed; /* Ahora siempre fija */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 80px; /* Altura fija para el nav */
+    background: rgba(0, 0, 0, 0.9);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border-color);
+    z-index: 1000;
+    padding: 1rem 2rem;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav-brand {
+    font-family: 'Orbitron', monospace;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--accent-color);
+    text-shadow: 0 0 5px var(--glow-color);
+    letter-spacing: 1px;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 2.5rem;
+    margin: 0;
+    padding: 0;
+    transition: transform 0.3s ease-in-out;
+}
+
+.nav-links li a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 600;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 0.5rem 0.8rem;
+    transition: all 0.3s ease;
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.nav-links li a::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 2px;
+    background: var(--accent-color);
+    transition: width 0.3s ease-out;
+}
+
+.nav-links li a:hover {
+    color: var(--accent-color);
+    text-shadow: 0 0 10px var(--glow-color);
+}
+
+.nav-links li a:hover::after {
+    width: 100%;
+}
+
+.nav-links li .nav-button {
+    background: linear-gradient(45deg, var(--accent-color), var(--accent-secondary));
+    color: var(--primary-bg);
+    padding: 0.7rem 1.5rem;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+    font-weight: 700;
+    box-shadow: 0 0 15px rgba(0, 255, 136, 0.3);
+    border: none;
+}
+
+.nav-links li .nav-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 20px rgba(0, 255, 136, 0.5);
+    color: var(--primary-bg);
+}
+.nav-links li .nav-button::after {
+    display: none;
+}
+
+/* Menú de Hamburguesa */
+.hamburger-menu {
+    display: none; /* Oculto por defecto en desktop */
+    flex-direction: column;
+    justify-content: space-around;
+    width: 30px;
+    height: 25px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    z-index: 1001; /* Asegura que esté encima de la navegación */
+}
+
+.hamburger-menu .bar {
+    width: 100%;
+    height: 3px;
+    background-color: var(--accent-color);
+    border-radius: 5px;
+    transition: all 0.3s ease;
+}
+
+/* Animación del icono de hamburguesa a cruz */
+.hamburger-menu.active .bar:nth-child(1) {
+    transform: translateY(11px) rotate(45deg);
+}
+.hamburger-menu.active .bar:nth-child(2) {
+    opacity: 0;
+}
+.hamburger-menu.active .bar:nth-child(3) {
+    transform: translateY(-11px) rotate(-45deg);
+}
+
+/* Main content */
+main {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+/* Secciones con animaciones */
+section {
+    margin: 6rem 0;
+    padding: 3rem;
+    background: rgba(26, 26, 26, 0.8);
+    border-radius: 15px;
+    border: 1px solid var(--border-color);
+    position: relative;
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(50px);
+    transition: all 0.6s ease-out;
+}
+
+section.animate {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(0, 255, 136, 0.1), transparent);
+    transition: left 0.8s ease-in-out;
+}
+
+section:hover::before {
+    left: 100%;
+}
+
+section:hover {
+    border-color: var(--accent-color);
+    box-shadow: 0 0 30px var(--shadow-color);
+    transform: translateY(-5px);
+}
+
+h2 {
+    font-family: 'Orbitron', monospace;
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--accent-color);
+    margin-bottom: 2rem;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    position: relative;
+    padding-bottom: 1rem;
+}
+
+h2::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent-color), var(--accent-secondary));
+    transition: width 0.6s ease-out;
+}
+
+section:hover h2::after {
+    width: 100%;
+}
+
+h3 {
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: var(--accent-secondary);
+    margin: 2rem 0 1rem 0;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+p {
+    font-size: 1.2rem;
+    line-height: 1.8;
+    color: var(--text-secondary);
+    margin-bottom: 1.5rem;
+}
+
+/* Lista con efectos */
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+ul li {
+    background: rgba(0, 0, 0, 0.5);
+    margin: 1rem 0;
+    padding: 1.5rem;
+    border-radius: 8px;
+    border-left: 4px solid var(--accent-color);
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+ul li::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 100%;
+    background: linear-gradient(90deg, rgba(0, 255, 136, 0.1), transparent);
+    transition: width 0.3s ease;
+}
+
+ul li:hover::before {
+    width: 100%;
+}
+
+ul li:hover {
+    transform: translateX(10px);
+    border-left-color: var(--accent-secondary);
+    box-shadow: 0 5px 15px rgba(0, 255, 136, 0.2);
+}
+
+/* Imagen con efectos */
+.gta-image {
+    width: 100%;
+    height: 400px;
+    object-fit: cover;
+    border-radius: 15px;
+    border: 2px solid var(--border-color);
+    margin: 2rem 0;
+    transition: all 0.4s ease;
+    filter: brightness(0.8) saturate(1.2);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.gta-image:hover {
+    transform: scale(1.02);
+    border-color: var(--accent-color);
+    box-shadow: 0 0 40px var(--shadow-color), 0 0 80px rgba(0, 255, 136, 0.1);
+    filter: brightness(1) saturate(1.5);
+}
+
+/* Botón futurista */
+.gta-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 1rem 2.5rem;
+    background: linear-gradient(45deg, var(--accent-color), var(--accent-secondary));
+    color: var(--primary-bg);
+    text-decoration: none;
+    font-family: 'Orbitron', monospace;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    border-radius: 8px;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    margin-top: 2rem;
+    border: 2px solid transparent;
+    cursor: pointer;
+}
+
+.gta-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg, var(--accent-secondary), var(--accent-color));
+    transition: left 0.3s ease;
+    z-index: -1;
+}
+
+.gta-button:hover::before {
+    left: 0;
+}
+
+.gta-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(0, 255, 136, 0.4);
+    border-color: var(--accent-color);
+}
+
+/* Cuadro de Destaque */
+.highlight-box {
+    background: rgba(0, 0, 0, 0.6);
+    border: 2px solid var(--accent-secondary);
+    border-radius: 10px;
+    padding: 1.5rem 2rem;
+    margin-top: 3rem;
+    text-align: center;
+    box-shadow: 0 0 25px rgba(255, 107, 53, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    opacity: 0;
+    transform: scale(0.9);
+    transition: all 0.6s ease-out;
+}
+.highlight-box.animate {
+    opacity: 1;
+    transform: scale(1);
+}
+.highlight-box i {
+    font-size: 3rem;
+    color: var(--accent-color);
+    animation: bounceIcon 2s infinite ease-in-out;
+}
+.highlight-box p {
+    margin: 0;
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.2);
+}
+@keyframes bounceIcon {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+}
+
+/* Placeholder para Galería/Video */
+.gallery-placeholder {
+    background: rgba(0, 0, 0, 0.7);
+    border: 2px dashed var(--border-color);
+    border-radius: 15px;
+    padding: 3rem 2rem;
+    margin-top: 3rem;
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 1.1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 200px;
+    gap: 20px;
+}
+.gallery-placeholder p {
+    margin-bottom: 0;
+    font-style: italic;
+}
+.video-button {
+    background: linear-gradient(45deg, #FFD700, #FFA500); /* Colores más llamativos para video */
+    color: #333;
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+}
+.video-button:hover {
+    box-shadow: 0 10px 25px rgba(255, 215, 0, 0.6);
+    border-color: #FFD700;
+    transform: translateY(-3px);
+}
+.video-button i {
+    font-size: 1.2em;
+}
+
+/* Nueva Sección: Contador de Estadísticas */
+.stats-counter-section {
+    text-align: center;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 3rem;
+    margin-top: 3rem;
+    justify-content: center;
+}
+
+.stat-item {
+    background: rgba(0, 0, 0, 0.7);
+    border: 1px solid var(--border-color);
+    border-radius: 15px;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+}
+
+.stat-item:hover {
+    transform: translateY(-8px) scale(1.02);
+    border-color: var(--accent-secondary);
+    box-shadow: 0 10px 30px rgba(255, 107, 53, 0.4);
+}
+
+.stat-icon {
+    font-size: 3.5rem;
+    color: var(--accent-color);
+    margin-bottom: 1rem;
+    text-shadow: 0 0 10px var(--glow-color);
+}
+
+.stat-number {
+    font-family: 'Orbitron', monospace;
+    font-size: 3.5rem;
+    font-weight: 900;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+    text-shadow: 0 0 15px var(--glow-color);
+}
+
+.stat-label {
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 3rem 2rem;
+    margin-top: 6rem;
+    background: rgba(0, 0, 0, 0.9);
+    border-top: 1px solid var(--border-color);
+    color: var(--text-muted);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .gta-header h1 {
+        font-size: 3rem;
+        letter-spacing: 4px;
+    }
+
+    .subtitle {
+        font-size: 1.2rem;
+    }
+
+    /* Navegación para móvil */
+    .main-nav {
+        padding: 1rem 1.5rem;
+    }
+    .nav-brand {
+        font-size: 1.5rem;
+    }
+
+    .hamburger-menu {
+        display: flex; /* Mostrar el botón de hamburguesa */
+    }
+
+    .nav-links {
+        /* Ocultar y posicionar fuera de la pantalla */
+        position: absolute;
+        top: 100%; /* Debajo de la barra de navegación */
+        left: 0;
+        width: 100%;
+        flex-direction: column;
+        background: rgba(0, 0, 0, 0.95);
+        border-top: 1px solid var(--border-color);
+        transform: translateY(-100%); /* Oculto arriba */
+        opacity: 0;
+        pointer-events: none; /* No interactuable cuando está oculto */
+        padding: 1rem 0;
+        gap: 0.5rem; /* Menor espacio en móvil */
+        height: auto;
+        overflow-y: auto; /* Para desplazamiento si hay muchos enlaces */
+    }
+
+    .nav-links.active {
+        transform: translateY(0); /* Mostrar cuando activo */
+        opacity: 1;
+        pointer-events: all;
+    }
+
+    .nav-links li {
+        width: 100%;
+        text-align: center;
+        border-left: none;
+        border-bottom: 1px solid rgba(255,255,255,0.1); /* Separador para cada elemento */
+        margin: 0;
+    }
+    .nav-links li:last-child {
+        border-bottom: none;
+    }
+
+    .nav-links li a {
+        display: block; /* Para que ocupe todo el ancho del li */
+        padding: 1rem;
+        font-size: 1rem;
+        justify-content: center; /* Centra el texto y el icono */
+    }
+
+    .nav-links li a:hover::after {
+        width: 50%; /* Menos ancho de subrayado en móvil */
+    }
+    .nav-links li .nav-button {
+        width: calc(100% - 2rem); /* Ancho completo con padding */
+        margin: 1rem auto; /* Centrar botón */
+        padding: 0.8rem 1.5rem;
+    }
+
+
+    section {
+        margin: 4rem 0;
+        padding: 2rem;
+    }
+
+    h2 {
+        font-size: 2rem;
+    }
+
+    .gta-image {
+        height: 250px;
+    }
+    .highlight-box {
+        flex-direction: column;
+        gap: 10px;
+        padding: 1rem;
+    }
+    .highlight-box p {
+        font-size: 1.2rem;
+    }
+
+    /* Estadísticas */
+    .stats-grid {
+        grid-template-columns: 1fr; /* Una columna en móvil */
+        gap: 2rem;
+    }
+    .stat-number {
+        font-size: 2.8rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .gta-header h1 {
+        font-size: 2.5rem;
+        letter-spacing: 2px;
+    }
+
+    main {
+        padding: 0 1rem;
+    }
+
+    section {
+        padding: 1.5rem;
+    }
+
+    h2 {
+        font-size: 1.8rem;
+    }
+
+    .gta-button {
+        width: 100%;
+        text-align: center;
+        justify-content: center;
+    }
+    .highlight-box i {
+        font-size: 2.5rem;
+    }
+}
