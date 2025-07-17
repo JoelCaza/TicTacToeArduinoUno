@@ -152,7 +152,7 @@ class RobotArmController:
 
 
 if __name__ == "__main__":
-    arduino_port = 'COM5'  # Puerto del Arduino (ajustar según sea necesario)
+    arduino_port = 'COM3'  # Puerto del Arduino (ajustar según sea necesario)
     robot_arm = RobotArmController(arduino_port)
 
     if robot_arm.serial_connection:

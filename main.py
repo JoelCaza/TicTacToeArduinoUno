@@ -13,10 +13,8 @@ from robot_control import RobotArmController
 
 class TicTacToeGame:
     def __init__(self, robot_port=None):
-        self.cap = cv2.VideoCapture(0)
-        if not self.cap.isOpened():
-            print("No se pudo acceder a la camara")
-            exit()
+        self.cap = None  # Inicializamos cap a None
+        self.camera_index = 0 # Valor por defecto
 
         self.estado_tablero = [' '] * 9
         self.turno_jugador = True
@@ -47,10 +45,9 @@ class TicTacToeGame:
 
         # Dificultad
         self.dificultad_ia = "facil"
-        self.seleccionando_dificultad = True
-        self.rect_facil = None
-        self.rect_dificil = None
-        self.rect_imposible = None
+        self.seleccionando_dificultad = False # Cambiado a False, ya que ahora seleccionamos camara primero
+        self.seleccionando_camara = True # Nuevo estado para la seleccion de camara
+        self.camera_rects = [] # Para almacenar los rectangulos de los botones de camara
         self.mensaje_final = ""
         self.linea_ganadora_posiciones = None
 
@@ -78,6 +75,39 @@ class TicTacToeGame:
             print("El robot se movera automaticamente.")
         else:
             print("El robot no se movera.")
+        
+        self.list_available_cameras() # Listar cámaras al inicio
+
+    def list_available_cameras(self):
+        """Intenta abrir cámaras con índices para encontrar las disponibles."""
+        self.available_cameras = []
+        print("Buscando cámaras disponibles...")
+        for i in range(10):  # Probar hasta 10 cámaras (puedes ajustar este número)
+            cap = cv2.VideoCapture(i)
+            if cap.isOpened():
+                print(f"Cámara encontrada en el índice: {i}")
+                self.available_cameras.append(i)
+                cap.release()
+            else:
+                # Si una cámara no se abre, a menudo significa que no hay más.
+                # Pero en algunos sistemas, los índices pueden no ser consecutivos.
+                # Para robustez, podemos seguir buscando, o detenernos aquí.
+                pass 
+        if not self.available_cameras:
+            print("No se encontraron cámaras disponibles. Asegúrate de que estén conectadas y no estén siendo usadas por otra aplicación.")
+            sys.exit("No hay cámaras para iniciar el juego.")
+
+    def initialize_camera(self, index):
+        """Inicializa la cámara con el índice dado."""
+        if self.cap:
+            self.cap.release() # Libera la cámara actual si hay una
+        self.cap = cv2.VideoCapture(index)
+        if not self.cap.isOpened():
+            print(f"No se pudo acceder a la cámara en el índice {index}")
+            self.cap = None # Asegurarse de que cap es None si falla
+            return False
+        print(f"Cámara en el índice {index} inicializada correctamente.")
+        return True
 
     def reset_game(self):
         self.estado_tablero = [' '] * 9
@@ -86,7 +116,8 @@ class TicTacToeGame:
         self.historial_movimientos = []
         self.contador_estabilidad = [0] * 9
         self.tiempo_inicio_espera = [0] * 9
-        self.seleccionando_dificultad = True
+        self.seleccionando_dificultad = True # Volvemos a la selección de dificultad después de seleccionar cámara
+        self.seleccionando_camara = False # Ya se seleccionó la cámara al inicio
         self.mensaje_final = ""
         self.linea_ganadora_posiciones = None
         self.robot_moviendo = False
@@ -139,7 +170,6 @@ class TicTacToeGame:
         cv2.rectangle(img, (x1, y1 + radius), (x2, y2 - radius), color, -1)
         cv2.rectangle(img, (x1 + radius, y1), (x2 - radius, y2), color, -1)
 
-
     def draw_countdown(self, frame):
         if self.mostrar_countdown:
             tiempo_transcurrido = time.time() - self.countdown_start_time
@@ -160,7 +190,7 @@ class TicTacToeGame:
                 cv2.circle(overlay, (frame.shape[1] // 2, frame.shape[0] // 2), 150, self.color_fondo_ui, -1)
                 cv2.addWeighted(overlay, 0.7, frame, 0.3, 0, frame)
                 self.draw_rounded_rect(frame, (frame.shape[1] // 2 - 150, frame.shape[0] // 2 - 150,
-                                               frame.shape[1] // 2 + 150, frame.shape[0] // 2 + 150),
+                                                frame.shape[1] // 2 + 150, frame.shape[0] // 2 + 150),
                                        self.color_borde_ui, 3, radius_factor=0.5)
 
                 cv2.putText(frame, text, (x, y), self.font, 5 * scale_factor, (0, 0, 255), grosor_borde, cv2.LINE_AA) # Rojo vibrante
@@ -219,9 +249,57 @@ class TicTacToeGame:
         draw_button(self.rect_dificil, "Dificil", "dificil")
         draw_button(self.rect_imposible, "Imposible", "imposible")
 
+    def dibujar_botones_camara(self, frame):
+        h, w, _ = frame.shape
+        boton_ancho = 250
+        boton_alto = 70
+        espacio = 25
+
+        overlay = frame.copy()
+        # Ajusta el fondo para el número de cámaras
+        num_cameras = len(self.available_cameras)
+        total_height = num_cameras * (boton_alto + espacio) + 100 # +100 para el título y márgenes
+        rect_bg = (w // 2 - boton_ancho // 2 - espacio, 
+                   h // 2 - total_height // 2,
+                   w // 2 + boton_ancho // 2 + espacio, 
+                   h // 2 + total_height // 2)
+        self.fill_rounded_rect(overlay, rect_bg, self.color_fondo_ui, radius_factor=0.1)
+        cv2.addWeighted(overlay, 0.85, frame, 0.15, 0, frame)
+        self.draw_rounded_rect(frame, rect_bg, self.color_borde_ui, 3, radius_factor=0.1)
+
+        texto_titulo = "Selecciona la Cámara"
+        (text_w, text_h), _ = cv2.getTextSize(texto_titulo, self.font, 1, self.grosor_texto + 1)
+        cv2.putText(frame, texto_titulo, (w // 2 - text_w // 2, rect_bg[1] + text_h + 20), self.font, 1, self.color_texto_claro, self.grosor_texto + 1)
+
+        self.camera_rects = []
+        start_y = rect_bg[1] + text_h + 20 + espacio * 2 # Posición inicial para los botones
+        
+        for i, cam_idx in enumerate(self.available_cameras):
+            y_pos = start_y + i * (boton_alto + espacio)
+            rect = (w // 2 - boton_ancho // 2, y_pos, w // 2 + boton_ancho // 2, y_pos + boton_alto)
+            self.camera_rects.append((rect, cam_idx))
+
+            color = self.color_exito if self.camera_index == cam_idx else (60, 60, 60)
+            self.fill_rounded_rect(frame, rect, color, radius_factor=0.25)
+            self.draw_rounded_rect(frame, rect, self.color_borde_ui, 2, radius_factor=0.25)
+
+            text = f"Cámara {cam_idx}"
+            (text_w, text_h), _ = cv2.getTextSize(text, self.font, 1, 2)
+            cv2.putText(frame, text, (rect[0] + (boton_ancho - text_w) // 2, rect[1] + (boton_alto + text_h) // 2 - 5), self.font, 1, self.color_texto_claro, 2)
+
+
     def mouse_callback(self, event, x, y, flags, param):
         if event == cv2.EVENT_LBUTTONDOWN:
-            if self.seleccionando_dificultad:
+            if self.seleccionando_camara:
+                for rect_info, cam_idx in self.camera_rects:
+                    if rect_info[0] < x < rect_info[2] and rect_info[1] < y < rect_info[3]:
+                        if self.initialize_camera(cam_idx):
+                            self.camera_index = cam_idx
+                            self.seleccionando_camara = False
+                            self.seleccionando_dificultad = True # Una vez seleccionada la cámara, pasa a la dificultad
+                            print(f"Cámara seleccionada: {cam_idx}")
+                        break
+            elif self.seleccionando_dificultad:
                 if self.rect_facil and self.rect_facil[0] < x < self.rect_facil[2] and self.rect_facil[1] < y < self.rect_facil[3]:
                     self.dificultad_ia = "facil"
                     self.seleccionando_dificultad = False
@@ -423,10 +501,33 @@ class TicTacToeGame:
         cv2.namedWindow("Tic Tac Toe con camara")
         cv2.setMouseCallback("Tic Tac Toe con camara", self.mouse_callback)
 
+        # Muestra la ventana de selección de cámara primero
+        # hasta que se seleccione una y se inicialice correctamente.
+        temp_frame = np.zeros((480, 640, 3), np.uint8) + self.color_fondo_ui[0] # Fondo oscuro
+        self.dibujar_botones_camara(temp_frame)
+        cv2.imshow("Tic Tac Toe con camara", temp_frame)
+        cv2.waitKey(1) # Pequeña espera para que la ventana se muestre
+        
+        while self.seleccionando_camara:
+            temp_frame = np.zeros((480, 640, 3), np.uint8) + self.color_fondo_ui[0]
+            self.dibujar_botones_camara(temp_frame)
+            cv2.imshow("Tic Tac Toe con camara", temp_frame)
+            key = cv2.waitKey(1) & 0xFF
+            if key == ord('q'):
+                break # Permite salir incluso en la selección de cámara
+            
+        # Si se rompe el bucle de selección de cámara sin haber seleccionado una
+        if not self.cap and not self.seleccionando_camara:
+            print("No se seleccionó ninguna cámara. Saliendo.")
+            self.cap.release()
+            cv2.destroyAllWindows()
+            return
+
+
         while True:
             ret, frame = self.cap.read()
             if not ret:
-                print("Error al capturar el frame")
+                print("Error al capturar el frame. Asegúrate de que la cámara sigue conectada.")
                 break
 
             frame = cv2.flip(frame, -1)
@@ -434,7 +535,6 @@ class TicTacToeGame:
             cuadricula = None
 
             if self.seleccionando_dificultad:
-            
                 self.dibujar_botones_dificultad(frame_procesado)
             elif self.mostrar_countdown:
                 # El countdown se encarga de cambiar self.mostrar_countdown a False
@@ -500,7 +600,7 @@ class TicTacToeGame:
         cv2.destroyAllWindows()
 
 if __name__ == "__main__":
-    robot_port = '/dev/ttyACM0' if sys.platform.startswith('linux') else 'COM5'
+    robot_port = '/dev/ttyACM0' if sys.platform.startswith('linux') else 'COM3'
     # robot_port = None # Descomenta para probar sin robot
     game = TicTacToeGame(robot_port)
     game.run()
